@@ -1354,17 +1354,16 @@ function stationStyleFunction(feature, resolution) {
     ? 5.5
     : 9;
 
-  const offsetX = minimizeBackground
-    ? zoom < 18
+  const label_multiplier = 
+    zoom < 15.3
       ? 7
-      : zoom < 19
+      : zoom < 16
       ? 7
-      : 7
-    : zoom < 18
-    ? 7
-    : zoom < 19
-    ? 7
-    : 7;
+      : zoom < 17
+      ? 7
+      : zoom < 18
+      ? 7
+      : 7;
 
   const styles = [];
 
@@ -1400,8 +1399,8 @@ function stationStyleFunction(feature, resolution) {
         text: new ol.style.Text({
           font: "bold 8px Calibri,sans-serif",
           text: labelText,
-          offsetX: labelOffsetX,
-          offsetY: labelOffsetY,
+          offsetX: labelOffsetX * label_multiplier,
+          offsetY: labelOffsetY * label_multiplier,
           textAlign: align,
           fill: new ol.style.Fill({
             color: "#000",
@@ -1458,7 +1457,7 @@ function highlightInvisibleSegments() {
 // Station Layer
 //"https://services.arcgis.com/04HiymDgLlsbhaV4/ArcGIS/rest/services/NYC_Subway_Diagram_Updated_Layers/FeatureServer/1/query?where=1%3D1&outFields=*&f=json"
 fetch(
-  "stations.geojson"
+  "stations_updated.geojson"
 )
   .then((response) => response.json())
   .then((data) => {
