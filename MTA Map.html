@@ -1325,6 +1325,7 @@ function stationStyleFunction(feature, resolution) {
 
   const offX = Number(feature.get("x_offset"));
   const offY = Number(feature.get("y_offset"));
+  const project_fl = feature.get("project_fl");
   const labelOffsetX = Number.isFinite(offX) ? offX : 0;
   const labelOffsetY = Number.isFinite(offY) ? offY : 0;
 
@@ -1367,22 +1368,23 @@ function stationStyleFunction(feature, resolution) {
 
   const styles = [];
 
+  const outer_stroke = project_fl == 1 ? "rgba(0, 0, 0, 1)" : "rgba(139, 139, 139, 0.2)";
 
   // Add station circle style
   styles.push(
   // Outer stroke
   new ol.style.Style({
     stroke: new ol.style.Stroke({
-      color: "rgba(139, 139, 139, 0.5)",
-      width: radius + 3
+      color: outer_stroke,
+      width: project_fl == 1 ? radius + 5 : radius + 3
     }),
     zIndex: 5
   }),
   // Inner stroke
   new ol.style.Style({
     stroke: new ol.style.Stroke({
-      color: baseColor,
-      width: radius + 1
+      color: project_fl == 1 ? "rgba(255, 255, 255, 1)" : baseColor,
+      width: project_fl == 1 ? radius + .5 : radius + 1
     }),
     zIndex: 6 // slightly higher so it sits on top
   })
